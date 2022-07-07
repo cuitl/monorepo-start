@@ -3,5 +3,9 @@
   "version": "1.0.0",
   "description": "common util share",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf dist && rollup --config",
+    "test": "echo 'shared test'"
+  }
 }
