@@ -1,5 +1,8 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import { useLog } from '@/hooks';
 
-createApp(App).use(router).mount("#app");
+useLog();
+
+createApp(App).use(router).mount('#app');
