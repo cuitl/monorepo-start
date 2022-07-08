@@ -6,27 +6,31 @@
 
 - mkdir vue-start-monorepo & yarn init & git init
 - mkdir `packages` & `apps` for libarary & application
+
   - libarary: code share includes hooks, utils, ui, assets
   - application: frontend application/project for release
+
 - modify the workspace package.json
+
   ```json
-  // setting the workspaces folder
+  // setting the workspaces folder in root's package.json
   {
     "workspaces": [
-      // put application
+      // put applications
       "apps/*",
-      // put libarary
+      // put libararies
       "packages/*"
     ]
   }
   ```
+
 - cd apps & `vue create {project name}` -> add application
 
   - move depedency from app package.json to workspace package.json in root
 
     ```bash
       # 将相关依赖安装到项目空间下的 package.json 中便于管理
-      # 也可以将相关依赖 "vue": "^3.2.37" 直接复制到项目空间下的package.json中
+      # 也可以将相关依赖如： "vue": "^3.2.37"等 直接复制到项目空间下的package.json中
       # ps: 以下命令用于依赖转移并升级
       yarn add vue vue-router -W
 
