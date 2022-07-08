@@ -14,7 +14,7 @@
     "baseUrl": ".",
     "types": ["webpack-env", "jest"],
     "paths": {
-      "shared": ["../../packages/shared/src/index.ts"],
+      "@vue-start-monorepo/shared": ["../../packages/shared/src/index.ts"],
       "@/*": ["src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]

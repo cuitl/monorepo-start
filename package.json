@@ -13,8 +13,7 @@
     "core-js": "^3.23.3",
     "tslib": "^2.4.0",
     "vue": "^3.2.37",
-    "vue-router": "^4.1.1",
-    "shared": "workspace:*"
+    "vue-router": "^4.1.1"
   },
   "devDependencies": {
     "@types/jest": "^28.1.4",

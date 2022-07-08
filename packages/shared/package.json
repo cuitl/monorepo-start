@@ -1,5 +1,5 @@
 {
-  "name": "shared",
+  "name": "@vue-start-monorepo/shared",
   "version": "1.0.0",
   "description": "common util share",
   "main": "dist/index.js",
