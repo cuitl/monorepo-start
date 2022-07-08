@@ -52,3 +52,76 @@
     ```
 
 - cd packages -> add libarary
+
+  - add shared lib
+  - use rollup to boudle code
+
+    ```json
+    // package.json
+    {
+      // use rollup to boudle common js & es, and set lib main entry
+      "main": "dist/index.js",
+      "module": "dist/index.es.js",
+
+      // depedencys -> move to workspace package.json
+      "dependencies": {
+        "tslib": "^2.4.0"
+      },
+      "devDependencies": {
+        "rollup": "^2.75.7",
+        "rollup-plugin-typescript2": "^0.32.1",
+        "typescript": "^4.7.4"
+      }
+    }
+    ```
+
+    ```json
+    // tsconfig.json
+    {
+      "compilerOptions": {
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "target": "esnext",
+        "module": "esnext",
+        "lib": ["es2017", "dom"],
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        // boudle code with Types
+        // 打包时将类型抽取出来
+        "declaration": true
+      },
+      "include": ["**/*.ts"]
+    }
+    ```
+
+- add libarary to apps
+
+  - the first way
+
+    > set shared dep to app one by one
+
+    ```json
+    // package.json in apps
+    {
+      "dependencies": {
+        // yarn will add shared to apps
+        // just * the assign any version / 指定任意版本
+        "shared": "*"
+        // "shared": "^1.0.0" // assign the version
+      }
+    }
+    ```
+
+  - the second way
+
+    > set shared dep to all apps
+
+    ```json
+    // package.json in workspace
+    {
+      "dependencies": {
+        "shared": "workspace:*"
+      }
+    }
+    ```
