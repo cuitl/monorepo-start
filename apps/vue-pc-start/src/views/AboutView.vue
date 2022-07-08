@@ -1,9 +1,11 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>This is an about page {{ title }}</h1>
   </div>
 </template>
 
-<script lang="ts">
-// import HelloWorld from '@/components/HelloWorld.vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
+
+const title = ref('<ref-str>');
 </script>

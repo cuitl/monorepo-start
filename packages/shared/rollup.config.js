@@ -11,7 +11,7 @@ export default {
     },
     {
       dir: 'dist',
-      entryFileNames: '[name].js',
+      entryFileNames: '[name].es.js',
       format: 'es',
       exports: 'named',
     },
