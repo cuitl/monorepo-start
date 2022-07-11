@@ -133,3 +133,43 @@
       }
     }
     ```
+
+## Yarn workspace(s) 命令相关
+
+- `yarn workspaces info` -> list workspaces packages
+
+  ```json
+  {
+    "vue-h5-start": {
+      "location": "apps/vue-h5-start",
+      "workspaceDependencies": ["@vue-start-monorepo/shared"],
+      "mismatchedWorkspaceDependencies": []
+    },
+    "vue-pc-start": {
+      "location": "apps/vue-pc-start",
+      "workspaceDependencies": ["@vue-start-monorepo/shared"],
+      "mismatchedWorkspaceDependencies": []
+    },
+    "@vue-start-monorepo/shared": {
+      "location": "packages/shared",
+      "workspaceDependencies": [],
+      "mismatchedWorkspaceDependencies": []
+    }
+  }
+  ```
+
+- `yarn workspaces run <command>`
+
+  > 执行 workspaces 所有项目的 `<command>` 命令
+
+  - `yarn workspaces run build` -> 所有项目执行 build 命令
+  - `yarn workspaces run test` -> 所有项目执行 test 命令
+
+- `yarn workspace <projectname> run <command>`
+
+  > 指定项目并运行命令
+
+  - `yarn workspace vue-h5-start run serve` -> 启动 vue-h5-start 项目
+  - `yarn workspace vue-h5-start add lodash` -> 给 vue-h5-start 添加依赖
+
+- `yarn add lodash -W`: -W 指，将依赖添加到公共的 package.json(in root folder)中
