@@ -1,0 +1,22 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "target": "esnext",
+    "module": "esnext",
+    "declaration": false,
+    "moduleResolution": "node",
+
+    "skipLibCheck": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@h5": ["apps/vue-h5-start/src/*"],
+      "@pc": ["apps/vue-pc-start/src/*"],
+      "~/*": ["packages/*"],
+      "@vue-start-monorepo/shared": ["packages/shared/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

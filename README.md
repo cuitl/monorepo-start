@@ -2,6 +2,16 @@
 
 基于 yarn, vue 的 **monorepo** 项目
 
+- [yarn workspaces](https://yarnpkg.com/features/workspaces)
+
+- [vue-cli](https://cli.vuejs.org/zh/)
+
+- [typescript tsconfig](https://www.typescriptlang.org/zh/tsconfig#extends)
+
+- [rollup](https://rollupjs.org/guide/zh/)
+
+- [rollup awesome](https://github.com/rollup/awesome)
+
 ## 项目创建流程
 
 - mkdir vue-start-monorepo & yarn init & git init
@@ -173,3 +183,85 @@
   - `yarn workspace vue-h5-start add lodash` -> 给 vue-h5-start 添加依赖
 
 - `yarn add lodash -W`: -W 指，将依赖添加到公共的 package.json(in root folder)中
+
+## tsconfig 相关
+
+通常项目中，都会配置相关 Path 别名来提高模块引用效率，如：vue-cli 会默认将 `@` 识别到 项目的 `src`目录.
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+
+首先，我们要知道，tsconfig.json 不仅仅是编译 typescript 的配置文件，也是编辑器用来进行分析的文件，我们在编辑器(vscode)中使用[command + 鼠标左键]能够正确的跳转到模块文件中，就是依赖编辑器对 tsconfig.json 的分析。
+
+除了 tsconfig.json, 在不使用 ts 的项目中，也会有 jsconfig.json 可以辅助编辑器识别相关路径。
+
+那在 monorepo 多项目状态下，怎么保证 libaray 和 app 的 路径识别呢？
+
+### app 识别 libaray 路径
+
+配置 app 项目下的 tsconfig.json 文件, 在 Path 中添加别名。
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      // 模块别名
+      "@vue-start-monorepo/shared": ["../../packages/shared/src/index.ts"],
+      // 项目中代码存放路径
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+
+这种方式的坏处是，每个 app 项目中，每添加一个 library 库，都需要添加 别名配置。
+
+通常在 monorepo 项目中，会在根目录添加 tsconfig.base.json 文件，用来存放公共的 tsconfig 配置，然后在每个 app 的 tsconfig.json 中继承, 这样相关公共配置就可以集中管理了如：
+
+```json
+// tsconfig.base.json
+{
+  "compilerOptions": {
+    // ...
+    "baseUrl": ".",
+    "paths": {
+      // alias for apps
+      "@h5": ["apps/vue-h5-start/src/*"],
+      "@pc": ["apps/vue-pc-start/src/*"],
+
+      "~/*": ["packages/*"],
+      "@vue-start-monorepo/shared": ["packages/shared/src/index.ts"]
+      // ... other libararies
+    }
+  }
+  // ...
+}
+```
+
+```json
+// tsconfig.json in apps
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // app tsconfig 配置paths 后，会覆盖 tsconfig.base.json 中的paths
+    // 此时其它模块的导入会出现识别错误如： @vue-start-monorepo/shared
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+
+这种方式的好处时, libararies 的别名配置可以集中在一起进行管理.  
+而这种方式的坏处是，app 中原有的别名 `@` 配置会被破坏掉，  
+由于 tsconfig 的 `extends` 无法使 paths 的配置合并,  
+所以若 app 下的 tsconfig.json 如果配置 paths 属性，会覆盖 tsconfig.base.json 中 paths 配置，  
+因此只能在 tsconfig.base.json 中, 单独为每个 app 设置指定的别名。
