@@ -101,6 +101,8 @@
 
 - add libarary to apps
 
+  > as lib name `shared` may conflict with depedency in node_modules, so shared dep should modify name property in package.json for example: `@vue-start-monorepo/shared`
+
   - the first way
 
     > set shared dep to app one by one
@@ -111,7 +113,8 @@
       "dependencies": {
         // yarn will add shared to apps
         // just * the assign any version / 指定任意版本
-        "shared": "*"
+        // "shared": "*"
+        "@vue-start-monorepo/shared": "*"
         // "shared": "^1.0.0" // assign the version
       }
     }
@@ -125,7 +128,8 @@
     // package.json in workspace
     {
       "dependencies": {
-        "shared": "workspace:*"
+        // "@vue-start-monorepo/shared": "workspace:*"
+        "@vue-start-monorepo/shared": "*"
       }
     }
     ```
