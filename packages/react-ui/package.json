@@ -1,15 +1,15 @@
 {
-  "name": "vite-react",
+  "name": "@vue-start-monorepo/react-ui",
   "private": true,
   "version": "0.0.0",
+  "main": "dist/react-ui-lib.umd.js",
+  "module": "dist/react-ui-lib.es.js",
   "scripts": {
     "serve": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vue-start-monorepo/react-ui": "*",
-    "@vue-start-monorepo/shared": "*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
