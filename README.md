@@ -265,3 +265,22 @@
 由于 tsconfig 的 `extends` 无法使 paths 的配置合并,  
 所以若 app 下的 tsconfig.json 如果配置 paths 属性，会覆盖 tsconfig.base.json 中 paths 配置，  
 因此只能在 tsconfig.base.json 中, 单独为每个 app 设置指定的别名。
+
+## pnpm
+
+> [pnpm](https://www.pnpm.cn/workspaces)是一个高效的包管理器, 不仅安装速度更快，还能够节省磁盘空间, 同时对 monorepo 支持也非常好，有不少库如：vue 都已经转到 pnpm 进行项目的管理。
+
+## Lerna , Nx, turborepo
+
+虽然 yarn, pnpm 本身支持 monorepo 项目的管理, 但提供的功能相对基础，为了更好的对 monorepo 项目进行组织、管理、发布等，推荐使用针对性更强的管理工具：
+
+- [Lerna](https://lerna.js.org/docs/getting-started)
+
+  > lerna 是一个老牌的 monorepo 管理工具, 虽然在 lerna4.0 后项目处于停止维护状态，但目前已经由 **_Nx_** 接管，并发布了 lerna 5.0.
+
+- [Nx](https://nx.dev/getting-started/intro)
+
+  > Nx 是一个小巧，快速，扩展性强的 monorepo 构建工具, 构建过程中不仅可以控制构建顺序，还对构建内容进行缓存及对比, 以提高构建效率，同时 nx 拥有大量的模版用于生成应用和库, 方便我们进行项目的搭建.
+
+- [Turborepo](https://turborepo.org/docs)
+  > Turborepo 是一个较新的 monorepo 构建工具，与 nx 类似, 不过与 nx 相比，缺少了相关模版。
