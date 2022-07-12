@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+
+// 引入react-ui 的全局css
+// 引入react-ui的组件
+import '@vue-start-monorepo/react-ui/dist/style.css';
 import { Welcome } from '@vue-start-monorepo/react-ui';
 
 function App() {
