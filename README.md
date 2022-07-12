@@ -1,6 +1,42 @@
-# vue-start-monorepo
+# monorepo-start
 
-基于 yarn, vue 的 **monorepo** 项目
+基于 yarn 的 **monorepo** 项目构建。
+
+**monorepo**是一种项目组织的方式, 内部包括多个应用及若干公共库（util、hooks, ui components）.
+
+一般 **monorepo** 的项目目录结构类似于：
+
+```bash
+  monorepo/
+  ├─ docs/
+  ├─ apps/
+  │  ├─ pc/
+  │  ├─ mobile/
+  ├─ packages/
+  │  ├─ ui/
+  │  ├─ utils/
+```
+
+定义这样的目录结构是为了将应用、库、文档进行归类和区分, 不过这个结构不是固定的, 我们可以定义任意的目录结构, 不过不管怎么定义我们都要使用配置文件进行描述，以 `yarn`, `npm` 为例：
+
+```json
+{
+  // 指定docs是一个项目
+  // 指定apps 和 packages 下的每一个目录都是一个项目
+  "workspaces": ["docs", "apps/*", "packages/*"]
+}
+```
+
+- docs 文档开发
+- apps 应用集合
+
+  > apps 的应用, package.json 文件中应设置 "private": true, 以防止发布到 npm.
+
+- packages 共享资源库
+
+  > packages 下的库用于共享，会被 apps 下的应用所引用, 同时 packages 下的库也常被发布到 npm，用以更多项目的共享。
+
+相关资料：
 
 - [yarn workspaces](https://yarnpkg.com/features/workspaces)
 
@@ -23,7 +59,7 @@
 - modify the workspace package.json
 
   ```json
-  // setting the workspaces folder in root's package.json
+  // setting the workspaces in root's package.json
   {
     "workspaces": [
       // put applications
@@ -184,6 +220,13 @@
 
 - `yarn add lodash -W`: -W 指，将依赖添加到公共的 package.json(in root folder)中
 
+## 项目启动 & 构建前置
+
+当我们的应用依赖了某个 package 时，需要先构建对应的 package 然后再运行项目，如：
+
+- yarn workspace @vue-start-monorepo/common run build
+- yarn workspace vue-h5-start run serve
+
 ## tsconfig 相关
 
 通常项目中，都会配置相关 Path 别名来提高模块引用效率，如：vue-cli 会默认将 `@` 识别到 项目的 `src`目录.
@@ -265,6 +308,42 @@
 由于 tsconfig 的 `extends` 无法使 paths 的配置合并,  
 所以若 app 下的 tsconfig.json 如果配置 paths 属性，会覆盖 tsconfig.base.json 中 paths 配置，  
 因此只能在 tsconfig.base.json 中, 单独为每个 app 设置指定的别名。
+
+## tsconfig 识别 js 模块
+
+> 有些时候我们可能会在 ts 项目中使用 js 来书写组件如：
+
+1. 组件过于简单写 ts 类型多余。
+2. 有人不想写、不去写。
+
+此时在 js 文件中，会失去别名的识别, 如：
+
+```js
+// .                module not resolved
+import { test } from '@/src/util';
+```
+
+```html
+<<template>
+  <div>{{text}}</div>
+</template>
+
+<script>
+  // script lost lang="ts"
+  // .                module not resolved
+  import { test } from '@/src/util';
+</script>
+```
+
+为了兼容这种情况，只需要在 `tsconfig.json`中配置：
+
+```json
+{
+  "compilerOptions": {
+    "allowJs": true
+  }
+}
+```
 
 ## pnpm
 
