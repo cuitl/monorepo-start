@@ -17,8 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@vue-start-monorepo/react-ui": ["../../packages/react-ui/src/index.ts"],
-      "@vue-start-monorepo/shared": ["../../packages/shared/src/index.ts"],
+      "@monorepo-start/react-ui": ["../../packages/react-ui/src/index.ts"],
+      "@monorepo-start/shared": ["../../packages/shared/src/index.ts"],
       "@/*": ["src/*"]
     }
   },

@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "vue-start-monorepo",
+  "name": "monorepo-start",
   "version": "1.0.0",
-  "description": "vue monorepo use yarn workspaces",
+  "description": "monorepo use yarn workspaces",
   "main": "index.js",
   "license": "MIT",
   "workspaces": [

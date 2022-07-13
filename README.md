@@ -50,7 +50,7 @@
 
 ## 项目创建流程
 
-- mkdir vue-start-monorepo & yarn init & git init
+- mkdir monorepo-start & yarn init & git init
 - mkdir `packages` & `apps` for libarary & application
 
   - libarary: code share includes hooks, utils, ui, assets
@@ -147,7 +147,7 @@
 
 - add libarary to apps
 
-  > as lib name `shared` may conflict with depedency in node_modules, so shared dep should modify name property in package.json for example: `@vue-start-monorepo/shared`
+  > as lib name `shared` may conflict with depedency in node_modules, so shared dep should modify name property in package.json for example: `@monorepo-start/shared`
 
   - the first way
 
@@ -160,7 +160,7 @@
         // yarn will add shared to apps
         // just * the assign any version / 指定任意版本
         // "shared": "*"
-        "@vue-start-monorepo/shared": "*"
+        "@monorepo-start/shared": "*"
         // "shared": "^1.0.0" // assign the version
       }
     }
@@ -174,8 +174,8 @@
     // package.json in workspace
     {
       "dependencies": {
-        // "@vue-start-monorepo/shared": "workspace:*"
-        "@vue-start-monorepo/shared": "*"
+        // "@monorepo-start/shared": "workspace:*"
+        "@monorepo-start/shared": "*"
       }
     }
     ```
@@ -188,15 +188,15 @@
   {
     "vue-h5-start": {
       "location": "apps/vue-h5-start",
-      "workspaceDependencies": ["@vue-start-monorepo/shared"],
+      "workspaceDependencies": ["@monorepo-start/shared"],
       "mismatchedWorkspaceDependencies": []
     },
     "vue-pc-start": {
       "location": "apps/vue-pc-start",
-      "workspaceDependencies": ["@vue-start-monorepo/shared"],
+      "workspaceDependencies": ["@monorepo-start/shared"],
       "mismatchedWorkspaceDependencies": []
     },
-    "@vue-start-monorepo/shared": {
+    "@monorepo-start/shared": {
       "location": "packages/shared",
       "workspaceDependencies": [],
       "mismatchedWorkspaceDependencies": []
@@ -224,7 +224,7 @@
 
 当我们的应用依赖了某个 package 时，需要先构建对应的 package 然后再运行项目，如：
 
-- yarn workspace @vue-start-monorepo/common run build
+- yarn workspace @monorepo-start/common run build
 - yarn workspace vue-h5-start run serve
 
 ## tsconfig 相关
@@ -257,7 +257,7 @@
   "compilerOptions": {
     "paths": {
       // 模块别名
-      "@vue-start-monorepo/shared": ["../../packages/shared/src/index.ts"],
+      "@monorepo-start/shared": ["../../packages/shared/src/index.ts"],
       // 项目中代码存放路径
       "@/*": ["src/*"]
     }
@@ -281,7 +281,7 @@
       "@pc": ["apps/vue-pc-start/src/*"],
 
       "~/*": ["packages/*"],
-      "@vue-start-monorepo/shared": ["packages/shared/src/index.ts"]
+      "@monorepo-start/shared": ["packages/shared/src/index.ts"]
       // ... other libararies
     }
   }
@@ -295,7 +295,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     // app tsconfig 配置paths 后，会覆盖 tsconfig.base.json 中的paths
-    // 此时其它模块的导入会出现识别错误如： @vue-start-monorepo/shared
+    // 此时其它模块的导入会出现识别错误如： @monorepo-start/shared
     "paths": {
       "@/*": ["src/*"]
     }

@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vue-start-monorepo/react-ui": "*",
-    "@vue-start-monorepo/shared": "*",
+    "@monorepo-start/react-ui": "*",
+    "@monorepo-start/shared": "*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

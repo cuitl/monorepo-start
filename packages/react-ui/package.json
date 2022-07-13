@@ -1,5 +1,5 @@
 {
-  "name": "@vue-start-monorepo/react-ui",
+  "name": "@monorepo-start/react-ui",
   "private": true,
   "version": "0.0.0",
   "main": "dist/react-ui-lib.umd.js",

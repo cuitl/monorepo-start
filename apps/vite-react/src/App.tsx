@@ -4,8 +4,8 @@ import './App.css';
 
 // 引入react-ui 的全局css
 // 引入react-ui的组件
-import '@vue-start-monorepo/react-ui/dist/style.css';
-import { Welcome } from '@vue-start-monorepo/react-ui';
+import '@monorepo-start/react-ui/dist/style.css';
+import { Welcome } from '@monorepo-start/react-ui';
 
 function App() {
   const [count, setCount] = useState(0);
