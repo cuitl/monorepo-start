@@ -220,6 +220,8 @@
 
 - `yarn add lodash -W`: -W 指，将依赖添加到公共的 package.json(in root folder)中
 
+  > 注意：当某个依赖在多个应用或库中使用时才应将依赖安装到根目录的 package.json 中。
+
 ## 项目启动 & 构建前置
 
 当我们的应用依赖了某个 package 时，需要先构建对应的 package 然后再运行项目，如：
@@ -363,3 +365,73 @@ import { test } from '@/src/util';
 
 - [Turborepo](https://turborepo.org/docs)
   > Turborepo 是一个较新的 monorepo 构建工具，与 nx 类似, 不过与 nx 相比，缺少了相关模版。
+
+## Add Nx to this monorepo
+
+将 nx 添加到当前 monorepo 工程中，以获得更好的性能提升:
+
+- 流程控制： 打包应用时，控制依赖打包完成，再打包应用
+- 编译缓存： 首次打包后，构建产物会被缓存，再次打包会进行缓存的判断加快打包速度
+
+引入步骤：
+
+- 执行 `npx add-nx-to-monorepo`
+
+  - 添加 **Nx** 依赖到 monorepo's package.json
+  - 添加 **nx.json**(配置文件) 到根目录
+
+- 执行 `yarn nx graph` -> 分析 monorepo 依赖关系并图形化显示
+
+- 执行 `yarn nx run-many --target=build --all` 进行所有项目的打包
+
+  > 打包过程中，可以看到被应用依赖的 packages 会优先打包, 其次是应用的打包。
+
+- 再次执行 `yarn nx run-many --target=build --all`
+  > 由于首次打包，相关构建产物已缓存，再次打包速度将直接忽略或进行增量编译(被修改的项目再次被打包).
+
+nx 命令相关：
+
+- `yarn nx run-many --target=build --all` 执行所有项目的 `build` 脚本
+
+- `yarn nx run-many --target=build --project=vue-h5-start,vue-pc-start` 执行 h5/pc 两个项目的 `build` 脚本
+
+- `yarn nx <script> <projectname>` 执行某个项目的 script 脚本
+
+  > 如：**yarn nx build vite-react**： 执行 vite-react 应用的 **build** 脚本
+
+- `yarn nx affected --target=build --all` 执行所有被修改的及受影响的项目
+
+  > 假如修改了 **react-ui** package, 则以上命令等同于：`yarn nx run-many --target=build --project=vite-react,react-ui`
+
+- `yarn nx affected:graph` 分析 monorepo 文件修改，并以图形关系展示出被修改及受影响的内容
+
+Note: `affected` 相关的命令会以某个分支作为参考对象，与当前工程的内容进行对比，来分析出被修改及受影响的内容。
+
+```json
+// nx.json
+{
+  "extends": "nx/presets/npm.json",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        // 设置要缓存的命令
+        // 再首次执行完命令后，再次执行将根据缓存内容判断
+        "cacheableOperations": ["build", "preview", "test:unit", "lint", "test"]
+      }
+    }
+  },
+  "targetDefaults": {
+    // 控制执行 build命令时，先执行其依赖的 build
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "affected": {
+    // affected 命令用来进行文件比对的参照分支
+    "defaultBase": "main"
+  }
+}
+```
+
+参考：[Adding Nx to Lerna/Yarn/PNPM/NPM Workspace](https://nx.dev/migration/adding-to-monorepo)
